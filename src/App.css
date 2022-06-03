@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: darkgray;
+}
+.App {
+  margin: 20px auto;
+  border-radius: 12px;
+  text-align: center;
+  width: 450px;
+  background: antiquewhite;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.App input {
+  margin: 20px;
+  font-size: 20px;
+  width: 80%;
+}
+.task {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 80%;
+  align-items: center;
+}
