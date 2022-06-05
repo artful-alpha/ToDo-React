@@ -1,22 +1,15 @@
 import React from "react";
 import "./App.css";
-import InputTask from "./components/InputTask";
-import Task from "./components/Taks";
+import TaskBlock from "./components/TaskBlock";
+
 function App() {
-  const [arrTask, setArrTask] = React.useState([]);
-
-  const getTask = (text) => {
-    setArrTask(() => [...arrTask, text]);
-  };
-
+  const [global, setGlobal] = React.useState("");
   return (
     <div className='App'>
       <h1>ToDo in React v0.1</h1>
-      <InputTask otpravka={getTask} />
 
-      {arrTask.map((item) => (
-        <Task taskName={item} />
-      ))}
+      <TaskBlock type='HIGH' up={(arr) => setGlobal([global, arr])} />
+      <TaskBlock type='LOW' />
     </div>
   );
 }

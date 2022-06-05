@@ -15,6 +15,9 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+h2 {
+  margin: 0;
+}
 .App input {
   margin: 20px;
   font-size: 20px;
@@ -26,4 +29,13 @@ body {
   margin: 0 auto;
   width: 80%;
   align-items: center;
+}
+.task.done {
+  background-color: brown;
+}
+.task.done::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: auto;
 }
