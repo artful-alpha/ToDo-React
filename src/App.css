@@ -29,9 +29,11 @@ h2 {
   margin: 0 auto;
   width: 80%;
   align-items: center;
+  margin-bottom: 20px;
 }
 .task.done {
-  background-color: brown;
+  background-color: #68ff52;
+  border-radius: 12px;
 }
 .task.done::before {
   content: "";

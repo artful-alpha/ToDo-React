@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FormTaskCreate from "./FormTaskCreate";
 import ItemTask from "./ItemTask";
 
@@ -25,7 +25,7 @@ export default function TaskBlock(props) {
 
   const taskDone = (task) => {
     const newArrTasks = arrTasks.map((item) => {
-      if (task.taskName == item.taskName) {
+      if (task.taskName === item.taskName) {
         item.status = !item.status;
       }
 
@@ -38,6 +38,7 @@ export default function TaskBlock(props) {
     <ItemTask
       key={task.taskName}
       name={task.taskName}
+      status={task.status}
       comleted={() => taskDone(task)}
       clickRemove={() => taskDelete(task)}
     />
