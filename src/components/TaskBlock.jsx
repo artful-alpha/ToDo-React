@@ -2,72 +2,75 @@ import React from "react";
 import FormTaskCreate from "./FormTaskCreate";
 import ItemTask from "./ItemTask";
 
-const high = "high";
-const low = "low";
 export default function TaskBlock(props) {
-  const Storage = JSON.parse(
-    props.type === high ? localStorage.getItem(high) : localStorage.getItem(low)
-  );
   const [inputValue, setInputValue] = React.useState("");
-  const [arrTasks, setTasks] = React.useState(Storage || []);
-
-  React.useEffect(() => {
-    const isHigh = props.type === high;
-
-    if (isHigh) {
-      localStorage.setItem(high, JSON.stringify(arrTasks));
-    } else {
-      localStorage.setItem(low, JSON.stringify(arrTasks));
-    }
-  }, [arrTasks]);
-
+  console.log(props.list);
   const submitForm = (e) => {
     e.preventDefault();
 
     if (!inputValue) return;
 
-    const task = { id: Date.now(), taskName: inputValue, status: false };
-    setTasks([task, ...arrTasks]);
+    const task = {
+      id: Date.now(),
+      taskName: inputValue,
+      status: false,
+      priority: props.type,
+    };
+    props.setList(task);
     setInputValue("");
   };
-
+  // item.priority !== task.priority;
+  // item.taskName !== task.taskName;
   const taskDelete = (task) => {
-    const refreshArr = arrTasks.filter(
-      (item) => item.taskName !== task.taskName
-    );
-    setTasks(refreshArr);
+    const refreshArr = props.all.filter((item) => {
+      if (item.taskName === task.taskName) {
+        if (item.priority === task.priority) {
+          return false;
+        }
+        return true;
+      }
+      return true;
+    });
+
+    props.filter(refreshArr);
   };
 
   const taskDone = (task) => {
-    const newArrTasks = arrTasks.map((item) => {
-      if (task.taskName === item.taskName) {
-        item.status = !item.status;
+    const newArrTasks = props.all.map((item) => {
+      if (item.taskName === task.taskName) {
+        if (item.priority === task.priority) {
+          item.status = !item.status;
+          return item;
+        }
+        return item;
       }
-
       return item;
     });
-    setTasks(newArrTasks);
+    props.filter(newArrTasks);
   };
 
-  const renderTasks = arrTasks.map((task) => (
-    <ItemTask
-      key={task.taskName}
-      name={task.taskName}
-      status={task.status}
-      comleted={() => taskDone(task)}
-      clickRemove={() => taskDelete(task)}
-    />
-  ));
   return (
     <div>
       <h2>{props.type} priority tasks</h2>
+
       <FormTaskCreate
+        key={"dsda"}
         type={props.type}
         onSubmit={submitForm}
         input={inputValue}
         onChangeInput={(e) => setInputValue(e.target.value)}
       />
-      <div>{renderTasks}</div>
+      <div>
+        {props.list.map((task, index) => (
+          <ItemTask
+            key={index}
+            name={task.taskName}
+            comleted={() => taskDone(task)}
+            status={task.status}
+            clickRemove={() => taskDelete(task)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
