@@ -1,10 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import FormTaskCreate from "./FormTaskCreate";
 import ItemTask from "./ItemTask";
 
+const high = "high";
+const low = "low";
 export default function TaskBlock(props) {
+  const Storage = JSON.parse(
+    props.type === high ? localStorage.getItem(high) : localStorage.getItem(low)
+  );
   const [inputValue, setInputValue] = React.useState("");
-  const [arrTasks, setTasks] = React.useState([]);
+  const [arrTasks, setTasks] = React.useState(Storage || []);
+
+  React.useEffect(() => {
+    const isHigh = props.type === high;
+
+    if (isHigh) {
+      localStorage.setItem(high, JSON.stringify(arrTasks));
+    } else {
+      localStorage.setItem(low, JSON.stringify(arrTasks));
+    }
+  }, [arrTasks]);
 
   const submitForm = (e) => {
     e.preventDefault();
